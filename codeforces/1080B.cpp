@@ -32,59 +32,31 @@ int main()
 {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-    int q; cin>>q;
+    int q;
+    cin>>q;
 
     ff(i,1,q){
         ll l,r;
         cin>>l>>r;
 
-        ll maxo,maxe,mine,mino,cnt=0;
+        if((r-l+1)%2==0){
 
-        if(l==r){
-            if(l%2==0) cout<<l<<endl;
-            else cout<<-l<<endl;
-            continue;
-        }
+            if(l%2==0){
+                cout<<-(r-l+1)/2<<endl;
+            }
 
-        if(r%2==0){
-            maxe=r;
-            maxo=r-1;
-        }
-        else{
-            maxe=r-1;
-            maxo=r;
-        }
+            else{
+                cout<<(r-l+1)/2<<endl;
+            }
 
-        if(l%2==0){
-            mine=l;
-            mino=l+1;
 
         }
         else{
-            mine=l+1;
-            mino=l;
+            if(r%2==0){
+                cout<<-(r-l+1)/2+r<<endl;
+            }
+            else cout<<(r-l+1)/2-r<<endl;
         }
-
-        mine=mine/2;
-        maxe=maxe/2;
-
-        cnt+=2*((maxe*(maxe+1))/2 - (mine-1)*mine/2);
-
-        ll oddcnt=0;
-
-        oddcnt=oddcnt+(maxo*(maxo+1)/2);
-        oddcnt-=((maxo/2)*(maxo/2+1));
-
-        if(mino!=1) {
-            oddcnt -= (mino - 2) * (mino-1)/2;
-            oddcnt += ((mino-3)/2)*((mino-3)/2+1);
-        }
-
-        if(maxe==mine) cnt=maxe*2;
-
-        if(mino==maxo) oddcnt=mino;
-
-        cout<<cnt-oddcnt<<endl;
     }
 
     return 0;
