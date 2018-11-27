@@ -1,5 +1,5 @@
 /*
-Strongly Connected Components are answers.
+Strongly Connected Components are the answers.
 */
 
 
