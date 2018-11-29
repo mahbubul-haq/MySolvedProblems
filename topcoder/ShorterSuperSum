@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define pb push_back
+#define pii pair<int,int>
+#define ll long long
+#define pll pair<long,long>
+#define vi vector<int>
+#define vii vector<pii>
+#define vll vector<ll>
+#define MOD 1000000007
+#define EPS 1e-7
+#define mem(x,y) memset(x,y,sizeof x)
+#define MAX 4e18
+#define ff(i,a,b) for(int i=(a);i<=(b);i++)
+#define fb(i,a,b) for(int i=(a);i>=(b);i--)
+
+class ShorterSuperSum{
+public:
+  	 int dp[15][15];
+
+    int Supersum(int n,int k){
+        if(dp[n][k]!=-1) return dp[n][k];
+
+        if(k==0) return dp[n][k]=n;
+        int val=0;
+
+        for(int i=1;i<=n;i++){
+            val+=Supersum(i,k-1);
+        }
+        
+        return dp[n][k]=val;
+
+    }
+
+    int calculate(int k,int n){
+
+        mem(dp,-1);
+
+        int ans= Supersum(n,k);
+        return ans;
+
+
+    }
+};
