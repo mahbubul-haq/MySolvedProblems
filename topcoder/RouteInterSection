@@ -1,0 +1,66 @@
+/*
+RouteIntersection 500 points
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+#define pb push_back
+#define pii pair<int,int>
+#define ll long long
+#define pll pair<long,long>
+#define vi vector<int>
+#define vii vector<pii>
+#define vll vector<ll>
+#define MOD 1000000007
+#define EPS 1e-7
+#define mem(x,y) memset(x,y,sizeof x)
+#define MAX 4e18
+#define ff(i,a,b) for(int i=(a);i<=(b);i++)
+#define fb(i,a,b) for(int i=(a);i>=(b);i--)
+
+class RouteIntersection{
+public:
+    string isValid(int n,vector<int> coords,string moves){
+        string valid="VALID",invalid="NOT VALID";
+
+        int siz=moves.size();
+        n=siz;
+        vector< vi > ans;
+        vi tempvec,temp;
+        tempvec.assign(n,0);
+
+        map<int,int>myMap;
+        int cnt=0;
+        for(int i=0;i<siz;i++){
+            if(myMap[coords[i]]==0)myMap[coords[i]]=++cnt;
+        }
+
+        for(int i=0;i<siz;i++){
+           // temp=tempvec;
+            ans.push_back(tempvec);
+
+            if(moves[i]=='+')
+                 tempvec[myMap[coords[i]]-1]++;
+            else tempvec[myMap[coords[i]]-1]--;
+
+            int siz1=ans.size();
+            bool flag=false;
+
+            for(int k=0;k<siz1;k++){
+                flag=false;
+                for(int j=0;j<siz;j++){
+                    if(tempvec[j]!=ans[k][j]){
+                        flag=true; break;
+                    }
+                }
+                if(!flag){
+                    return invalid;
+                }
+            }
+
+
+        }
+
+        return valid;
+    }
+};
