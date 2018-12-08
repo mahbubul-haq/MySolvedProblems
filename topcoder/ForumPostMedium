@@ -1,0 +1,110 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define pb push_back
+#define pii pair<int,int>
+#define ll long long
+#define pll pair<long,long>
+#define vi vector<int>
+#define vii vector<pii>
+#define vll vector<ll>
+#define MOD 1000000007
+#define EPS 1e-7
+#define mem(x,y) memset(x,y,sizeof x)
+#define INF 1e9
+#define ff(i,a,b) for(int i=(a);i<=(b);i++)
+#define fb(i,a,b) for(int i=(a);i>=(b);i--)
+#define dist2D(x1,y1,x2,y2) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
+#define dist3D(x1,y1,z1,x2,y2,z2) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)+(z1-z2)*(z1-z2))
+#define sortv(v) sort(v.begin(),v.end())
+#define debugx(x) cout<<"WTH! "<<x<<endl
+#define debug(x,y) cout<<x<<" "<<y<<endl
+
+class ForumPostMedium{
+public:
+    string getShownPostTime(string currentTime,string postTime){
+        int current=0,post=0;
+
+        int h=(currentTime[0]-48)*10+(currentTime[1]-48);
+        current+=h*3600;
+        int m=(currentTime[3]-48)*10+(currentTime[4]-48);
+        current+=m*60;
+        current+=(currentTime[6]-48)*10+(currentTime[7]-48);
+
+        h=(postTime[0]-48)*10+(postTime[1]-48);
+        post+=h*3600;
+        m=(postTime[3]-48)*10+(postTime[4]-48);
+        post+=m*60;
+        post+=(postTime[6]-48)*10+(postTime[7]-48);
+
+        int firstkind,secondkind;
+        firstkind=59,secondkind=59*60+59;
+
+        string ans;
+
+        if(current>=post){
+            if(current-post<=firstkind){
+                ans="few seconds ago";
+            }
+            else if(current-post<=secondkind){
+                int temp=(current-post)/60;
+                if(temp<10){
+                    ans=(temp+48);
+                    ans+=" minutes ago";
+                }
+                else {
+                    ans=(temp/10+48);
+                    ans+=(temp%10+48);
+                    ans+=" minutes ago";
+                }
+            }
+            else{
+                int temp=(current-post)/3600;
+                if(temp<10){
+                    ans=(temp+48);
+                    ans+=" hours ago";
+                }
+                else {
+                    ans=(temp/10+48);
+                    ans+=(temp%10+48);
+                    ans+=" hours ago";
+                }
+            }
+        }
+        else{
+
+            current+=24*3600;
+
+            if(current-post<=firstkind){
+                ans="few seconds ago";
+            }
+            else if(current-post<=secondkind){
+                int temp=(current-post)/60;
+                if(temp<10){
+                    ans=(temp+48);
+                    ans+=" minutes ago";
+                }
+                else {
+                    ans=(temp/10+48);
+                    ans+=(temp%10+48);
+                    ans+=" minutes ago";
+                }
+            }
+            else{
+                int temp=(current-post)/3600;
+                if(temp<10){
+                    ans=(temp+48);
+                    ans+=" hours ago";
+                }
+                else {
+                    ans=(temp/10+48);
+                    ans+=(temp%10+48);
+                    ans+=" hours ago";
+                }
+            }
+        }
+
+        return ans;
+
+    }
+};
