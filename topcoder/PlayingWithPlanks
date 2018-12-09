@@ -1,0 +1,16 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class PlayingWithPlanks{
+public:
+
+    string  canItBeDone(int plankLength, int pieces){
+        string pos="possible";
+        string impos="impossible";
+        
+        if((pieces*(pieces+1))/2<=plankLength) return pos;
+        else return impos;
+        
+    }
+
+};
