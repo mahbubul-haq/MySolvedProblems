@@ -1,0 +1,87 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define pb push_back
+#define pii pair<int,int>
+#define ll long long
+#define pll pair<long,long>
+#define vi vector<int>
+#define vii vector<pii>
+#define vll vector<ll>
+#define MOD 1000000007
+#define EPS 1e-7
+#define mem(x,y) memset(x,y,sizeof x)
+#define INF 1e9
+#define ff(i,a,b) for(int i=(a);i<=(b);i++)
+#define fb(i,a,b) for(int i=(a);i>=(b);i--)
+#define dist2D(x1,y1,x2,y2) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
+#define dist3D(x1,y1,z1,x2,y2,z2) ((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)+(z1-z2)*(z1-z2))
+#define sortv(v) sort(v.begin(),v.end())
+#define debugx(x) cout<<"WTH! "<<x<<endl
+#define debug(x,y) cout<<x<<" "<<y<<endl
+
+class MaximizingGCD{
+public:
+
+    int Set(int N,int pos) { return N=N|(1<<pos); }
+    int reset(int N,int pos){ return N=N&~(1<<pos);}
+    bool check(int N,int pos){  return (bool) (N&(1<<pos));}
+
+    vi act;
+    int siz;
+    ll dp[32];
+
+    ll GCD(ll i,ll j){
+        if(j==0) return i;
+        else return GCD(j,i%j);
+    }
+
+    ll ret(int mask){
+
+        int idx=-1;
+        ll gcd;
+
+        for(int i=0;i<siz;i++) {
+            if(!check(mask,i)) {
+                idx=i;
+                mask=Set(mask,i);
+                gcd=act[i];
+                break;
+
+            }
+        }
+
+        if(idx==-1) return 0;
+        ll re=1;
+
+        if(dp[idx]!=-1) return dp[idx];
+
+        for(int i=0;i<siz;i++) {
+            if(!check(mask,i)) {
+
+                gcd+=act[i];
+                int tempmask=mask;
+                tempmask=Set(tempmask,i);
+
+                re=max(re,GCD(gcd,ret(tempmask)));
+                gcd-=act[i];
+
+            }
+        }
+
+        return dp[idx]=re;
+
+
+    }
+
+    int maximumGCDPairing(vector <int> A){
+        act=A;
+        siz=act.size();
+        mem(dp,-1);
+
+       return  ret(0);
+
+
+    }
+
+};
