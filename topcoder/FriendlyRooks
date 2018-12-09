@@ -20,67 +20,62 @@ using namespace std;
 #define debugx(x) cout<<"WTH! "<<x<<endl
 #define debug(x,y) cout<<x<<" "<<y<<endl
 
-class MaximizingGCD{
+class FriendlyRooks{
 public:
+    int numofColor=0;
+    int taken[21][21];
 
-    int Set(int N,int pos) { return N=N|(1<<pos); }
-    int reset(int N,int pos){ return N=N&~(1<<pos);}
-    bool check(int N,int pos){  return (bool) (N&(1<<pos));}
+    void recurse(int i,int j,vector<string> board){
 
-    vi act;
-    int siz;
-    ll dp[32];
+        if(i==board.size()||j==board[0].size()) return;
 
-    ll GCD(ll i,ll j){
-        if(j==0) return i;
-        else return GCD(j,i%j);
+        if(taken[i][j]==1) return;
+
+        taken[i][j]=1;
+
+        if(board[i][j]=='R'){
+            numofColor=1;
+
+            for(int ii=i;ii<board.size();ii++){
+                recurse(ii,j,board);
+            }
+            for(int ii=j;ii<board[0].size();ii++){
+                recurse(i,ii,board);
+            }
+
+            for(int ii=j;ii>=0;ii--){
+                recurse(i,ii,board);
+            }
+            for(int ii=i;ii>=0;ii--) recurse(ii,j,board);
+
+        }
+
     }
 
-    ll ret(int mask){
 
-        int idx=-1;
-        ll gcd;
 
-        for(int i=0;i<siz;i++) {
-            if(!check(mask,i)) {
-                idx=i;
-                mask=Set(mask,i);
-                gcd=act[i];
-                break;
+    int getMinFriendlyColoring(vector <string> board){
+
+        mem(taken,-1);
+        int ans=0;
+
+        int si=board.size();
+        int siz=board[0].size();
+
+        for(int i=0;i<si;i++){
+            for(int j=0;j<siz;j++){
+                numofColor=0;
+
+                if(taken[i][j]==-1){
+                    recurse(i,j,board);
+                }
+
+                ans+=numofColor;
 
             }
         }
 
-        if(idx==-1) return 0;
-        ll re=1;
-
-        if(dp[idx]!=-1) return dp[idx];
-
-        for(int i=0;i<siz;i++) {
-            if(!check(mask,i)) {
-
-                gcd+=act[i];
-                int tempmask=mask;
-                tempmask=Set(tempmask,i);
-
-                re=max(re,GCD(gcd,ret(tempmask)));
-                gcd-=act[i];
-
-            }
-        }
-
-        return dp[idx]=re;
-
-
-    }
-
-    int maximumGCDPairing(vector <int> A){
-        act=A;
-        siz=act.size();
-        mem(dp,-1);
-
-       return  ret(0);
-
+        return ans;
 
     }
 
