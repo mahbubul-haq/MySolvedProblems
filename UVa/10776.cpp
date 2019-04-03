@@ -79,25 +79,19 @@ bool check(int N,int pos){  return (bool) (N&(1<<pos));}
 
 string input;
 int n;
-set<string> s;
 
 void rec(int id,string temp,int cnt){
-
-    if(id==siz(input)+1) return ;
 
     if(cnt==n){
         cout<<temp<<endl;
     }
     else{
         for(int i=id;i<siz(input);i++){
-            if(temp.size()>0 and temp[siz(temp)-1]>input[i]) continue;
-
             rec(i+1,temp+input[i],cnt+1);
             while(i+1<siz(input) and input[i]==input[i+1]) i++;
-            //i--;
+
         }
     }
-
 }
 
 int main()
@@ -107,16 +101,9 @@ int main()
 
     while(cin>>input>>n){
 
-        s.clear();
-
         sort(input.begin(),input.end());
-        //input.pop_back();
-        //cout<<input<<endl;
-        //fap(input);
 
         rec(0,"",0);
-       // for(auto it:s) cout<<it<<endl;
-
     }
 
     return 0;
