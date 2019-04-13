@@ -90,32 +90,36 @@ int main()
 
     //cin>>n>>m;
     sfii(n,m);
-    Power.resize(2*n+1);
+    Power.resize(n+1);
 
     fof(i,0,n){
         sfi(Power[i]);
        //cin>>Power[i];
     }
-    fof(i,n,2*n) Power[i]=0;
+    Power[n]=0;
 
     int K=(int)sqrt(n)+1;
-    int next[2*n+5];
-    int count[2*n+5];
-    int id[2*n+5];
+    int next[n+5];
+    int count[n+5];
+    int id[n+5];
 
     for(int i=0;i<n+2;i++){
         id[i]=i/K;
     }
-    for(int i=n;i<2*n;i++) id[i]=id[n-1]+1;
 
     for(int i=0;i<n;i++){
 
         int kk=id[i];
         int j=i;
         count[i]=0;
+
         while(id[j]==kk){
             count[i]++;
             j+=Power[j];
+            if(j>=n){
+                j=n;
+                break;
+            }
         }
         next[i]=j;
     }
@@ -133,17 +137,15 @@ int main()
                 cnt+=count[a];
                 last=a;
                 a=next[a];
+                if(a>=n) break;
             }
-            //cnt+=count[a];
 
+            while(last+Power[last]<n){
+                last+=Power[last];
+            }
 
-                while (Power[last + Power[last]]) {
-                    last += Power[last];
-                }
+            printf("%d %d\n",last+1,cnt);
 
-
-                printf("%d %d\n",last+1,cnt);
-            //cout<<last+1<<" "<<cnt<<endl;
         }
         else{
 
@@ -161,11 +163,20 @@ int main()
             while(id[j]==kk){
                 count[a]++;
                 j+=Power[j];
+                if(j>=n) {
+                    j=n;
+                    break;
+                }
             }
             next[a]=j;
 
             for(int j=a-1;j>-1 and id[j]==kk;j--){
-                if(id[j+Power[j]]==kk){
+                int jj=j+Power[j];
+                if(jj>=n){
+                    next[j]=n;
+                    count[j]=1;
+                }
+                else if(id[jj]==kk){
                     next[j]=next[j+Power[j]];
                     count[j]=count[j+Power[j]]+1;
                 }
