@@ -46,7 +46,7 @@ using namespace std;
 #define vll                         vector<ll>
 #define vvll                        vector<vll>
 #define vpll                        vector<pll>
-#define bug(...)                    cerr << __PRETTY_FUNCTION__ << " - " << __LINE__ << " : (" << #__VA_ARGS__ << ") = ("; _Print(__VA_ARGS__);
+#define bug(...)                    cerr << __LINE__ << " : (" << #__VA_ARGS__ << ") = ("; _Print(__VA_ARGS__);
 template<class T> void _Print(T &&x) { cerr << x << ")" << endl; }
 template<class T, class ...S> void _Print(T &&x, S &&...y) { cerr << x << ", "; _Print(y...); }
  
@@ -97,41 +97,55 @@ bool check(int N, int pos){ return (bool) (N & (1 << pos)); }
  
 ///=======================================template=======================================///
  
-set<string> str[26];
-vb vis;
- 
 int main() {
     //FI;//FO;
-    FastIO; //timeInit;
- 
-    vis.assign(26, false);
+    //FastIO; //timeInit;
  
     int n;
     cin >> n;
  
+    set<string> s[26];
+    vb vis(26, true);
     for (int i = 0; i < n; i++) {
-        string temp;
-        cin >> temp;
-        for (auto &x : temp) {
-            str[x - 'a'].insert(temp);
+        string str;
+        cin >> str;
+        for (auto &x : str) {
+            s[x - 'a'].insert(str);
+            vis[x - 'a'] = false;
         }
     }
+ 
+    queue<int> q;
     int ans = 0;
  
     while (true) {
-        bool nn = false;
-        for (int i = 0; i < 26; i++) {
-            if (!vis[i] and !str[i].empty()) {
-                nn = true;
-                ans++;
-                vis[i] = true;
-                for (auto &x : str[i]) {
-                    for (auto &y : x)
-                        vis[y - 'a'] = true;
+        bool ok = false;
+        if (q.empty()) {
+            for (int i = 0; i < 26; i++) {
+                if (!vis[i]) {
+                    q.push(i);
+                    ok = true;
+                    ans++;
+                    break;
                 }
             }
         }
-        if (!nn)
+ 
+        while (!q.empty()) {
+            int now = q.front();
+            q.pop();
+            vis[now] = true;
+            for (auto &x : s[now]) {
+                for (auto &y : x) {
+                    if (!vis[y - 'a']) {
+                        q.push(y - 'a');
+                    }
+                    vis[y - 'a'] = true;
+                }
+            }
+        }
+ 
+        if (!ok)
             break;
     }
  
