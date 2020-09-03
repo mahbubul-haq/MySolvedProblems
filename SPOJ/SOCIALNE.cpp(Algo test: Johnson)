@@ -1,0 +1,187 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define all(v)                      v.begin(), v.end()
+#define dist2D(x1, y1, x2, y2)            ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+#define dist3D(x1, y1, z1, x2, y2, z2)    ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2))
+#define eb                          emplace_back
+#define EPS                         1e-16
+#define endl                        "\n"
+#define FastIO                      ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define FI                          freopen("in.txt", "r", stdin)
+#define FO                          freopen("out.txt", "w", stdout)
+#define ff                          first
+#define INF              1000000000000000000
+#define ld                          long double
+#define ll                          long long
+#define mem(x,y)                    memset(x, y, sizeof x)
+#define mp                          make_pair
+#define msi                         map<string, int>
+#define mii                         map<int, int>
+#define mis                         map<int, string>
+#define MOD                         1000000007
+#define PI                          acos(-1.0)
+#define PQ                          priority_queue
+#define pb                          push_back
+#define pib                         pair<int, bool>
+#define pii                         pair<int, int>
+#define pll                         pair<ll, ll>
+#define present(c, x)               ((c).find(x) != (c).end())
+#define sfi(x)                      scanf("%d", &x)
+#define sfii(x,y)                   scanf("%d %d", &x, &y)
+#define sfiii(x,y,z)                scanf("%d %d %d", &x, &y, &z)
+#define siz(x)                      (int)x.size()
+#define ss                          second
+#define ull                         unsigned long long
+#define vb                          vector<bool>
+#define vi                          vector<int>
+#define vvi                         vector<vi>
+#define vii                         vector<pii>
+#define vvii                        vector<vii>
+#define vll                         vector<ll>
+#define vvll                        vector<vll>
+#define vpll                        vector<pll>
+/*
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <functional>
+using namespace __gnu_pbds;
+typedef tree<int,null_type, less<int>, rb_tree_tag,
+        tree_order_statistics_node_update> ordered_set;
+
+//os.order_of_key(v): returns how many elements strictly less than v
+//os.find_by_order(k - 1): returns kth smallest element's iterator
+*/
+
+
+
+
+///=======================================template=======================================///
+
+const int inf = 1000000000;
+vvii g;
+vvi dist;
+vi dst;
+int n, m;
+
+bool BellmanFord() {
+    dst.assign(n + 1, inf);
+    dst[0] = 0;
+
+    for (int i = 1; i <= n; i++) {
+        bool flag = false;
+
+        for (int j = 0; j <= n; j++) {
+            for (auto &v : g[j]) {
+                if (dst[j] != inf and dst[v.ff] > dst[j] + v.ss) {
+                    flag = true;
+                    dst[v.ff] = dst[j] + v.ss;
+                }
+            }
+        }
+        if (!flag)
+            return true;
+    }
+
+    for (int j = 0; j <= n; j++) {
+        for (auto &v : g[j]) {
+            if (dst[j] != inf and dst[v.ff] > dst[j] + v.ss) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void Dijkstra(int s) {
+    PQ<pii, vector<pii>, greater<pii> > pq;
+    pq.push({0, s});///{distance, vertex}
+
+    while(!pq.empty()) {
+        auto u = pq.top(); pq.pop();
+        if (dist[s][u.ss] == u.ff) {
+            for (auto &v : g[u.ss]) {
+                if (dist[s][u.ss] + v.ss < dist[s][v.ff]) {
+                    dist[s][v.ff] = dist[s][u.ss] + v.ss;
+                    pq.push({dist[s][v.ff], v.ff});
+                }
+            }
+        }
+    }
+}
+
+void JohnsonAPSP() {
+    for (int i = 1; i <= n; i++) {
+        g[0].eb(i, 0);
+    }
+
+    if (BellmanFord()) {
+        for (int i = 1; i <= n; i++) {
+            for (auto &v : g[i]) {
+                v.ss = v.ss + dst[i] - dst[v.ff];
+            }
+        }
+
+        for (int i = 1; i <= n; i++) {
+            Dijkstra(i);
+            for (int j = 1; j <= n; j++) {
+                dist[i][j] = dist[i][j] + dst[j] - dst[i];///this is the final distance from i to j
+            }
+        }
+    }
+    else cout <<"Negative Cycle" << endl;
+}
+
+int main() {
+
+    FastIO;
+    int ttt;
+    cin >> ttt;
+    while (ttt--) {
+        string s;
+        cin >> s;
+        string arr[siz(s)];
+        arr[0] = s;
+        n = siz(s);
+        g.assign(n + 1, vii());
+        dist.assign(n + 1, vi(n + 1, inf));
+
+        for (int i = 1; i < n; i++) {
+            cin >> arr[i];
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (arr[i][j] == 'Y') {
+                    g[i + 1].eb(j + 1, 1);
+                }
+            }
+        }
+
+        for (int i = 0; i <= n; i++)
+            dist[i][i] = 0;
+
+        JohnsonAPSP();
+
+        vii vec;
+
+        for (int i = 1; i <= n; i++) {
+            int cnt = 0;
+            for (int j = 1; j <= n; j++) {
+                if (i != j) {
+                    ///bug(arr[i - 1][j - 1], dist[i][j], i, j);
+                    if (dist[i][j] == 2) {
+                        cnt++;
+                    }
+                }
+            }
+            vec.eb(-cnt, i - 1);
+        }
+
+        sort(all(vec));
+        cout << vec[0].ss << " " << -vec[0].ff << endl;
+
+    }
+
+    return 0;
+}
