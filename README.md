@@ -18,3 +18,5 @@
 | POJ                           | [bool_bool](http://poj.org/userstatus?user_id=bool_bool)                                            | 4               |
 | HackerRank                    | [mahbubulhaque](https://www.hackerrank.com/mdmahbubulhaq201?hr_r=1)                                 | 2               |
 |                               | Total                                                                                              | 1526            |
+
+Last Updated: October 13, 2022
