@@ -1,5 +1,5 @@
 ## MySolvedProblems
-### The following table shows my problem solve count in different online judges.
+#### The following table shows my problem solve count in different online judges.
 | OJ                            | Username                                                                                            | Solve Count     |
 | :---------------------------: | :-------------------------------------------------------------------------------------------------: | :-------------: |
 | Codeforces                    | [F__](https://codeforces.com/profile/F__)                                                           |      883        |
@@ -17,4 +17,4 @@
 | Toph                          | [bool_bool](https://toph.co/u/bool_bool)                                                            | 5               |
 | POJ                           | [bool_bool](http://poj.org/userstatus?user_id=bool_bool)                                            | 4               |
 | HackerRank                    | [mahbubulhaque](https://www.hackerrank.com/mdmahbubulhaq201?hr_r=1)                                 | 2               |
-| Total                                                                                                                               | 1526            |
+|                               | Total                                                                                              | 1526            |
